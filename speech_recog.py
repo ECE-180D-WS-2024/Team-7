@@ -1,11 +1,17 @@
 import speech_recognition as sr
 
-#Helper function to extract keywords from a list
-#Takes in a list, the words to parse, and a list of keywords
-#Outputs a list containing only the keywords in the original list
-def extract_keywords(word_list, keywords):
-    extracted_keywords = [word for word in word_list if any(keyword in word for keyword in keywords)]
-    return extracted_keywords
+#Helper function to extract command using keywords from a list
+#Takes in a list of tuples, the words to parse, and a list of keywords (and close cognates)
+#Outputs the command, or None if no keywords are found
+def extract_command(word_list, keywords):
+    count = [0] * len(keywords)
+    for word_said in word_list:
+        for i, keyword_tuple in enumerate(keywords):
+            for keyword in keyword_tuple:
+                if (word_said == keyword):
+                    count[i] += 1
+    max_val = max(count)
+    return None if max_val == 0 else keywords[count.index(max_val)][0]
 
 #Takes in a recognizer and microphone object, and a list of strings of valid commands
 #Returns a response dictionary
@@ -64,13 +70,13 @@ def recognize_speech_from_mic(recognizer, microphone, available_commands):
     #process the transcription
     if (raw_words):
         #remove all words except keyword commands
-        words_parsed = extract_keywords(raw_words.split(), available_commands)
+        command = extract_command(raw_words.split(), available_commands)
         #take the mode of the commands, and replace transcription with the command
-        if (words_parsed):
-            response["transcription"] = max(set(words_parsed), key=words_parsed.count)
+        if (command):
+            response["transcription"] = command
         else:
-            #response["error"] = "Words detected, but no commands. Original input was:\n" + raw_words
-            response["error"] = "Words detected, but no commands. Parsed input was:\n" + str(words_parsed)
+            response["error"] = "Words detected, but no commands. Original input was:\n" + raw_words
+            #response["error"] = "Words detected, but no commands. Parsed input was:\n" + str(words_parsed)
 
     return response
 
@@ -87,7 +93,7 @@ if __name__ == "__main__":
 
     game_info = {
         "game": "Pokemon",
-        "available_commands": ["right", "left", "up", "down"]
+        "available_commands": [("right", "Wright", "alright", "rights"), ("left", "cleft"), "up", "down"]
     }
 
     while True:
