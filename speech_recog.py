@@ -93,7 +93,7 @@ if __name__ == "__main__":
 
     game_info = {
         "game": "Pokemon",
-        "available_commands": [("right", "Wright", "alright", "rights"), ("left", "cleft"), "up", "down"]
+        "available_commands": [("right", "Wright", "alright", "rights"), ("left", "cleft"), ("up", "pop"), ("down",)]
     }
 
     while True:
