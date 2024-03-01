@@ -1,14 +1,14 @@
 import speech_recognition as sr
 
 #Helper function to extract command using keywords from a list
-#Takes in a list of tuples, the words to parse, and a list of keywords (and close cognates)
+#Takes in a list of tuples, the words to parse, and a list of keywords
 #Outputs the command, or None if no keywords are found
 def extract_command(word_list, keywords):
     count = [0] * len(keywords)
     for word_said in word_list:
         for i, keyword_tuple in enumerate(keywords):
             for keyword in keyword_tuple:
-                if (word_said == keyword):
+                if (keyword in word_said.lower()):
                     count[i] += 1
     max_val = max(count)
     return None if max_val == 0 else keywords[count.index(max_val)][0]
@@ -38,7 +38,8 @@ def recognize_speech_from_mic(recognizer, microphone, available_commands):
     # adjust the recognizer sensitivity to ambient noise and record audio
     # from the microphone
     with microphone as source:
-        recognizer.adjust_for_ambient_noise(source)
+        recognizer.energy_threshold = 0
+        #recognizer.adjust_for_ambient_noise(source)
         audio = recognizer.listen(source, phrase_time_limit=2)
 
     # set up the response object
@@ -48,8 +49,6 @@ def recognize_speech_from_mic(recognizer, microphone, available_commands):
         "transcription": None
     }
 
-    #TODO: process the transcription, and remove anything that isnt a valid input
-    #TODO: count the occurance of each valid commands, and return only a one word string of the most frequent command
     #TODO: could try starting listening at a exact given time, instead of when the microphone energy passes the threshold
     #TODO: look into Snowboy to use a hotword instead of the recgonizer. since we only have one word commands, this may be a useful alternative.
 
@@ -76,7 +75,6 @@ def recognize_speech_from_mic(recognizer, microphone, available_commands):
             response["transcription"] = command
         else:
             response["error"] = "Words detected, but no commands. Original input was:\n" + raw_words
-            #response["error"] = "Words detected, but no commands. Parsed input was:\n" + str(words_parsed)
 
     return response
 
@@ -86,17 +84,17 @@ if __name__ == "__main__":
     recognizer = sr.Recognizer()
     microphone = sr.Microphone()
 
-    #TODO: the speech recognizer accepts input indefinitely until you stop talking. we want to sample periodically, with predetermined limits.
-    #DONE.
     #TODO: one word prompts don't work as well as short phrases. also, letters like "A" or "B" are not understood. also, "right" is not picked up very well.
     #Considering a different speech recognizer, or training our own classifier that classifies specifically into the predetermined commands ("right", "left", etc.)
 
     game_info = {
         "game": "Pokemon",
-        "available_commands": [("right", "Wright", "alright", "rights"), ("left", "cleft"), ("up", "pop"), ("down",)]
+        "available_commands": [("right",), ("left", ), ("up", "pop"), ("down",), ("enter",), ("back",)]
     }
 
     while True:
+        input() #press enter in console to listen
+        
         print('Accepting new input:')
         guess = recognize_speech_from_mic(recognizer, microphone, game_info["available_commands"])
 
