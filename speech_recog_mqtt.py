@@ -39,7 +39,7 @@ def extract_command(word_list, keywords):
     max_val = max(count)
 
     if max_val == 0:
-        return None
+        return (None, 0)
     else:
         return (keywords[count.index(max_val)][0], count.index(max_val))
 
@@ -116,8 +116,8 @@ if __name__ == "__main__":
 
     game_info_pokemon = {
         "name": "pokemon",
-        "available_commands": [("right", "riot", "write"), ("left", ), ("up", "pop"), ("down",), ("enter",), ("back",), ("select",)],
-        "send_commands": ("Right", "Left", "Up", "Down", "Enter", "Back", "Select")
+        "available_commands": [("right", "riot", "write"), ("left", ), ("up", "pop"), ("down",), ("enter",), ("back",), ("select",), ("start",)],
+        "send_commands": ("Right", "Left", "Up", "Down", "A", "B", "Select", "Start")
     }
 
     game_info_rps = {
@@ -146,7 +146,7 @@ if __name__ == "__main__":
             print("You said: {}".format(response["transcription"]))
 
             print("Transmitting move to server...\n")
-            client.publish("ece180d/pokemon/test/", send_commands[response["command_index"]], qos=1)
+            #client.publish("ece180d/pokemon/test/", send_commands[response["command_index"]], qos=1)
 
 client.loop_stop()
 client.disconnect()
