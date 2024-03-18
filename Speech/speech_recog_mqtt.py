@@ -146,7 +146,7 @@ if __name__ == "__main__":
             print("You said: {}".format(response["transcription"]))
 
             print("Transmitting move to server...\n")
-            #client.publish("ece180d/pokemon/test/", send_commands[response["command_index"]], qos=1)
+            client.publish("ece180d/pokemon/test/", send_commands[response["command_index"]], qos=1)
 
 client.loop_stop()
 client.disconnect()
