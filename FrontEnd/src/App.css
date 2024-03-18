@@ -1,0 +1,74 @@
+.App {
+  text-align: center;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  background-image: url('./Components/Assets/welcomePage1.jpg');  
+  background-size: cover;
+  background-position: center; 
+  background-repeat: no-repeat; 
+}
+
+.auth-form-container, .login-form, .register-form {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 600px) {
+  .auth-form-container {
+    padding: 5rem;
+    border: 1px solid rgb(3, 3, 3);
+    border-radius: 10px;
+    margin: 0.5rem;
+  }
+}
+
+label {
+  text-align: left;
+  padding: 0.25rem 0;
+}
+
+input {
+  margin: 0.5rem 0;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+}
+
+button {
+  border: none;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: black;
+}
+
+.link-btn {
+  background: none;
+  color: rgb(1, 1, 1);
+  text-decoration: underline;
+}
+
+.password-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50px; 
+  cursor: pointer;
+}
+
+input[type="password"], input[type="text"] {
+  padding-right: 30px; 
+}
+
+.homeBackground {
+  background-image: url('./Components/Assets/homePage1.jpg'); 
+}
