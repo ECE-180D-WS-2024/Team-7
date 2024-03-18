@@ -102,3 +102,4 @@ if __name__ == "__main__":
             print("ERROR: {}".format(guess["error"]))
         else:
             print("You said: {}".format(guess["transcription"]))
+            print("Transmitting move to server...")

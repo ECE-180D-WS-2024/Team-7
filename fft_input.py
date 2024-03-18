@@ -6,7 +6,7 @@ import scipy.io.wavfile as wav
 import matplotlib.pyplot as plt
 
 fs=44100
-duration = .01  # seconds
+duration = 1  # seconds
 print ("Recording Audio")
 myrecording = sd.rec((int)(duration * fs), samplerate=fs, channels=2,dtype='float64')
 sd.wait()
@@ -51,26 +51,26 @@ threshold = mag[0:1001] > average
 plt.subplot(122)
 plt.stem(freq[0:1001], threshold)
 plt.tight_layout()
-#plt.show()
+plt.show()
 
-while(True):
-    fs=44100
-    duration = .5  # seconds
-    print ("Recording Audio")
-    myrecording = sd.rec((int)(duration * fs), samplerate=fs, channels=2,dtype='float64')
-    sd.wait()
+# while(True):
+#     fs=44100
+#     duration = .5  # seconds
+#     print ("Recording Audio")
+#     myrecording = sd.rec((int)(duration * fs), samplerate=fs, channels=2,dtype='float64')
+#     sd.wait()
 
-    channel0 = myrecording[:, 0]
-    sample_size_time = len(channel0)
-    t = np.linspace(0, duration, sample_size_time)
+#     channel0 = myrecording[:, 0]
+#     sample_size_time = len(channel0)
+#     t = np.linspace(0, duration, sample_size_time)
 
 
-    X = np.fft.fft(channel0)
+#     X = np.fft.fft(channel0)
 
-    mag = (np.abs(X))[0:1001]
-    average = np.max(mag) / 3
+#     mag = (np.abs(X))[0:1001]
+#     average = np.max(mag) / 3
 
-    print(mag[mag > average][0])
+#     print(mag[mag > average][0])
 
 #in the range 100-900 Hz
 
