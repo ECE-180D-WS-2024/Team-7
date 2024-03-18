@@ -49,9 +49,6 @@ def recognize_speech_from_mic(recognizer, microphone, available_commands):
         "transcription": None
     }
 
-    #TODO: could try starting listening at a exact given time, instead of when the microphone energy passes the threshold
-    #TODO: look into Snowboy to use a hotword instead of the recgonizer. since we only have one word commands, this may be a useful alternative.
-
     # try recognizing the speech in the recording
     # if a RequestError or UnknownValueError exception is caught,
     #     update the response object accordingly
@@ -84,19 +81,29 @@ if __name__ == "__main__":
     recognizer = sr.Recognizer()
     microphone = sr.Microphone()
 
-    #TODO: one word prompts don't work as well as short phrases. also, letters like "A" or "B" are not understood. also, "right" is not picked up very well.
-    #Considering a different speech recognizer, or training our own classifier that classifies specifically into the predetermined commands ("right", "left", etc.)
-
-    game_info = {
-        "game": "Pokemon",
+    game_info_pokemon = {
+        "name": "pokemon",
         "available_commands": [("right", "riot", "write"), ("left", ), ("up", "pop"), ("down",), ("enter",), ("back",)]
     }
+
+    game_info_rps = {
+        "name": "rps",
+        "available_commands": [("rock",), ("paper",), ("scissors",)]
+    }
+
+    game_info_list = [game_info_pokemon, game_info_rps]
+
+    mode = "rps"
+
+    for game in game_info_list:
+        if (game["name"] == mode):
+            commands = game["available_commands"]
 
     while True:
         input() #press enter in console to listen
         
         print('Accepting new input:')
-        guess = recognize_speech_from_mic(recognizer, microphone, game_info["available_commands"])
+        guess = recognize_speech_from_mic(recognizer, microphone, commands)
 
         if guess["error"]:
             print("ERROR: {}".format(guess["error"]))
